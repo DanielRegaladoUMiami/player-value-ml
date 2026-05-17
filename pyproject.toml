@@ -1,0 +1,56 @@
+[project]
+name = "player-value-ml"
+version = "0.0.1"
+description = "Forecasting football player market values: honest comparison of 7 model families on the same temporal split"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Daniel Regalado" }]
+requires-python = ">=3.10"
+dependencies = [
+    # Data
+    "pandas>=2.0",
+    "polars>=1.0",
+    "pyarrow>=16.0",
+    "numpy>=1.26",
+    "kagglehub>=0.3",
+
+    # Classical / ML
+    "scikit-learn>=1.4",
+    "lightgbm>=4.3",
+    "xgboost>=2.0",
+
+    # Nixtla suite (statistical + ML + neural forecasting)
+    "statsforecast>=2.0",
+    "mlforecast>=1.0",
+    "neuralforecast>=3.0",
+    "utilsforecast>=0.2",
+
+    # Deep learning
+    "torch>=2.3",
+    "jax>=0.10",
+    "jaxlib>=0.10",
+    "optax>=0.2",
+
+    # Eval / plots
+    "matplotlib>=3.8",
+    "seaborn>=0.13",
+    "scipy>=1.13",
+
+    # Demo
+    "gradio>=5.0",
+    "huggingface-hub>=0.25",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.6", "ipykernel"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/playerval"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"

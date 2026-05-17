@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# Data — these are reproducible from Kaggle so we don't commit them
+data/
+*.parquet
+*.csv
+!sample_data/*.csv
+
+# Models / artifacts
+checkpoints/
+models/
+*.pkl
+*.joblib
+*.lgb
+*.txt.lgb
+mlruns/
+wandb/
+trackio_logs/
+
+# OS / Editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Secrets
+.env
+.env.local
+*.key
+.kaggle/
+
+# Big plot outputs — keep only README plots
+results/plots/_raw_/
