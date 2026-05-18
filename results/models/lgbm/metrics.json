@@ -1,0 +1,9 @@
+{
+  "best_iteration": 351,
+  "val_mae_log": 0.2092030848606672,
+  "val_r2": 0.2125299491204926,
+  "val_mape_multiplicative": 0.19970208976257137,
+  "test_mae_log": 0.19699092860190004,
+  "test_r2": 0.2046996582970153,
+  "test_mape_multiplicative": 0.1860055786401861
+}
