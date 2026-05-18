@@ -1,0 +1,26 @@
+{
+  "B0_naive_zero": {
+    "val_mae_log": 0.22661554244911083,
+    "val_r2": -0.008846212588002889,
+    "val_mape_multiplicative": 0.21301464013076452,
+    "test_mae_log": 0.21449618517783686,
+    "test_r2": -0.006273909639769704,
+    "test_mape_multiplicative": 0.2000325969237366
+  },
+  "B1_position_age_mean": {
+    "val_mae_log": 0.23802015711619484,
+    "val_r2": 0.1398278056586707,
+    "val_mape_multiplicative": 0.24185130999587687,
+    "test_mae_log": 0.22399809341501162,
+    "test_r2": 0.1465137619906034,
+    "test_mape_multiplicative": 0.2278831856541558
+  },
+  "B2_ridge": {
+    "val_mae_log": 0.2300285092972038,
+    "val_r2": 0.14555170131571116,
+    "val_mape_multiplicative": 0.21716452667471148,
+    "test_mae_log": 0.2164191209005625,
+    "test_r2": 0.13007091134627136,
+    "test_mape_multiplicative": 0.1980351285016424
+  }
+}
