@@ -22,7 +22,15 @@ import numpy as np
 import pandas as pd
 
 # ---------------------------------------------------------------- paths
-ROOT = Path(__file__).resolve().parent.parent
+# Try both layouts: local dev has results/ at repo root (../results),
+# the HF Space staging puts results/ next to app.py (./results).
+HERE = Path(__file__).resolve().parent
+for candidate in [HERE, HERE.parent]:
+    if (candidate / "results" / "models" / "lgbm" / "model.lgb").exists():
+        ROOT = candidate
+        break
+else:
+    ROOT = HERE  # let it crash with a clear message later
 MODEL_PATH = ROOT / "results" / "models" / "lgbm" / "model.lgb"
 METRICS_PATH = ROOT / "results" / "models" / "lgbm" / "metrics.json"
 IMPORTANCE_PATH = ROOT / "results" / "models" / "lgbm" / "feature_importance.csv"
