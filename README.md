@@ -47,10 +47,33 @@ Target: `y = log(value_{T+next} / value_T)`. Metric on log-ratio: MAE
 | 1 | Linear            | B2 Ridge               |          0.2164 |       +0.130 | Engineered features, regularised   |
 | 2 | Statistical       | AutoETS                |          0.2361 |   **−0.198** | **Overfits short irregular series**|
 | 2 | Statistical       | AutoTheta              |          0.2740 |   **−0.298** | Same failure mode, worse           |
-| 3 | ML tabular        | **LightGBM**           |      **0.1970** |       +0.205 | **Best MAE** — +40% R² over baselines |
+| 3 | ML tabular        | **LightGBM** (regression) |   **0.1970** |       +0.205 | **Best MAE** in regression           |
 | 4 | Neural forecast   | NHITS (Nixtla)         |              — |            — | _attempted; deferred for batched-inference v2_ |
-| 5 | From-scratch JAX  | **TabTransformer**     |          0.2053 |   **+0.2135** | **Best R²** — 95K params, hand-rolled |
+| 5 | From-scratch JAX  | **TabTransformer**     |          0.2053 |   **+0.2135** | **Best R²** in regression — 95K params, hand-rolled |
 | 6 | Ensemble          | Stacking               |              − |            − | _future work_                      |
+
+### Reframed as classification — the part that actually works
+
+The R² ceiling in regression (~0.21) reflects the data: **magnitude** of
+value change is mostly noise. But **direction** is predictable. The
+LightGBM classifier on the same features gets:
+
+| Task                                  | Metric         | Result      |
+|---------------------------------------|----------------|------------:|
+| Binary — *will value go UP?*          | **Test AUC**   | **0.773**   |
+|                                       | Accuracy       | 0.682       |
+|                                       | F1             | 0.579       |
+|                                       | Brier          | 0.168       |
+| 3-class — DOWN (<−5%) / FLAT / UP (>+5%) | Accuracy   | 0.554 (33% random) |
+|                                       | AUC DOWN-vs-rest | **0.808** |
+|                                       | AUC UP-vs-rest   | **0.772** |
+|                                       | AUC FLAT-vs-rest | 0.638     |
+
+This is the **product-relevant framing**: a scout/agent cares whether a
+player's value will go up or down (and roughly by how much), not the
+exact log-ratio. Detecting **DOWN movers is the easiest signal**
+(AUC 0.81): aging and under-performing players are visible from age,
+minutes share, and recent value trajectory.
 
 Raw JSON: [`results/models/baselines/metrics.json`](results/models/baselines/metrics.json),
 [`results/models/stats/metrics.json`](results/models/stats/metrics.json),
