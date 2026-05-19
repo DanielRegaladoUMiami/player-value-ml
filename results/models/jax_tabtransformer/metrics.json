@@ -1,0 +1,14 @@
+{
+  "TabTransformer": {
+    "test_mae_log": 0.2052941918373108,
+    "test_r2": 0.21353870630264282,
+    "val_mae_log": 0.21497441828250885,
+    "params": 95041,
+    "config": {
+      "d_model": 64,
+      "n_layers": 2,
+      "n_heads": 4,
+      "d_ff": 128
+    }
+  }
+}

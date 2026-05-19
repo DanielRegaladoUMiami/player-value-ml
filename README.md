@@ -47,9 +47,9 @@ Target: `y = log(value_{T+next} / value_T)`. Metric on log-ratio: MAE
 | 1 | Linear            | B2 Ridge               |          0.2164 |       +0.130 | Engineered features, regularised   |
 | 2 | Statistical       | AutoETS                |          0.2361 |   **−0.198** | **Overfits short irregular series**|
 | 2 | Statistical       | AutoTheta              |          0.2740 |   **−0.298** | Same failure mode, worse           |
-| 3 | ML tabular        | **LightGBM**           |      **0.1970** |   **+0.205** | **Best — +40% R² over baselines**  |
-| 4 | Neural forecast   | NHITS / TFT / PatchTST |              — |            — | _future work_                      |
-| 5 | From-scratch JAX  | TabTransformer + LSTM  |              − |            − | _future work_                      |
+| 3 | ML tabular        | **LightGBM**           |      **0.1970** |       +0.205 | **Best MAE** — +40% R² over baselines |
+| 4 | Neural forecast   | NHITS (Nixtla)         |              — |            — | _attempted; deferred for batched-inference v2_ |
+| 5 | From-scratch JAX  | **TabTransformer**     |          0.2053 |   **+0.2135** | **Best R²** — 95K params, hand-rolled |
 | 6 | Ensemble          | Stacking               |              − |            − | _future work_                      |
 
 Raw JSON: [`results/models/baselines/metrics.json`](results/models/baselines/metrics.json),
@@ -58,9 +58,13 @@ Raw JSON: [`results/models/baselines/metrics.json`](results/models/baselines/met
 
 ### Key findings
 
-- **LightGBM wins by a clear margin** — R² of **+0.205** vs the best
-  baseline (B1 cohort mean, R² +0.146). That's a **~40% relative lift in
-  R²** and a meaningful drop in MAE (0.197 vs 0.214 naive).
+- **LightGBM wins on MAE; JAX TabTransformer wins on R²** — LightGBM
+  achieves the lowest MAE (0.197), while a 95K-param hand-rolled
+  TabTransformer in pure JAX captures the most variance (R² +0.2135 vs
+  LGBM's +0.205). Classical bias-variance trade-off: LGBM is more
+  conservative (predictions cluster near the mean → lower MAE), while the
+  Transformer makes bigger predictions that explain more but occasionally
+  overshoot.
 - **Classical statistical methods FAIL here** — `AutoETS` (R² **−0.198**)
   and `AutoTheta` (R² **−0.298**) are *worse than the naive baseline*.
   This is the M-competition / Makridakis insight in miniature: ETS/Theta
